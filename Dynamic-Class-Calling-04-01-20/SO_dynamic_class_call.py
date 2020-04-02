@@ -1,5 +1,6 @@
 from pathlib import Path
 import pandas as pd
+import inspect
 
 ## SUPER CLASSES
 ################
@@ -39,40 +40,44 @@ def extract_ser():
     for super_class in classes_path.iterdir(): # Path of Fruit -or- Vegetable Folder
         for sub_class in super_class.iterdir(): # Path of <grapes.csv> -or- <cucumbers.csv>
             df_csv = pd.read_csv(sub_class)  # dataframe assignment
-            df_ser = df_csv.iloc[:, 0]      # series assignment
+            df_ser = df_csv.iloc[:,0]      # series assignment
 
-            sub_cls_ser[sub_class.stem] = df_ser  # [stem] = series
-    return classes_path, sub_cls_ser
+            sub_cls_ser[sub_class.stem[:-1]] = df_ser  # [stem] = series
+    return sub_cls_ser
 
 
-def make_objs(cls_fldr_pth, sub_ser):
-    for super_class in cls_fldr_pth.iterdir():
-        make_veg = lambda veg: Vegetable()  # INSERT varying named lambda function & CONSTRUCTOR CALL
-                                            #  later applied to series
+def make_objs(sub_ser):
+    for str_key, ser_val in sub_ser.items():
         ## APPLY super_constr
-        for str_key, ser_val in sub_ser.items():
-            print(f"Check DF str_key: {str_key}")  # use <str_key> to check which is super class
-            obj_df = ser_val.apply(make_veg)     # inside .apply() would change based on super_class
+        # if str_key matches sub_class of super
+        make_veg = lambda veg: Vegetable()  # INSERT varying named lambda function & CONSTRUCTOR CALL
+        
+        print(f"Check DF str_key: {str_key}")  # use <str_key> to check which is super class
+        obj_df = ser_val.apply(make_veg)     # inside .apply() would change based on super_class
+        print(f"After SUPER .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
 
-            print(f"After SUPER .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
-
-        for sub_class in super_class.iterdir():
-            sub_constr = sub_class.stem      # based on this call subclass constructor
-
-            make_cuc = lambda veg: Cucumber()  # INSERT varying named lambda function & CONSTRUCTOR CALL
+        make_cuc = lambda veg: Cucumber()  # INSERT varying named lambda function & CONSTRUCTOR CALL
                                                 #  later applied to the series
-            for str_key, df_val in sub_ser.items():
-                ## APPLY sub_constr
-                print(f"Check DF str_key: {str_key}")
-                obj_df = df_val.apply(make_cuc)    # inside .apply() would change based on sub_class
+        ## APPLY sub_constr
+        print(f"Check DF str_key: {str_key}")
+        obj_df = ser_val.apply(make_cuc)    # inside .apply() would change based on sub_class
 
-                print(f"After SUB .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
+        print(f"After SUB .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
+
 
 if __name__ == "__main__":
-        classes_flder_path, sub_cls_series = extract_ser()
-        make_objs(classes_flder_path, sub_cls_series)
-        
-        
+        sub_cls_series = extract_ser()
+        make_objs(sub_cls_series)
+
+        cls_list = [Vegetable, Fruit, Grape, Cucumber]
+        the_tree = inspect.getclasstree(classes=cls_list)
+
+        for branch in the_tree:
+            print(f"Branch: {branch}")
+            for leaf in branch:
+                print(f"Leaf: {leaf}")
+
+        print(f"\n\nTHE TREE: {the_tree}")
         
 ## WHAT I HAVE TRIED
 ## to write at the beginning of make_objs()
