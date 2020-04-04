@@ -64,6 +64,15 @@ def make_objs(sub_ser):
 
         print(f"After SUB .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
 
+## RECURSIVE THROUGH TREE
+def trav_tree(tree):
+    if type(tree)==list:
+        print("Is list")
+    for indx, elem in enumerate(tree):
+        print(f"Index: {indx}\nElement: {elem}\n\n")
+        #trav_tree(elem)
+        for jdx, sub in enumerate(elem):
+            print(f"Index: {jdx}\nSub-Elem: {sub}\n\n")
 
 if __name__ == "__main__":
         sub_cls_series = extract_ser()
@@ -71,13 +80,14 @@ if __name__ == "__main__":
 
         cls_list = [Vegetable, Fruit, Grape, Cucumber]
         the_tree = inspect.getclasstree(classes=cls_list)
+        trav_tree(the_tree)
 
-        for branch in the_tree:
-            print(f"Branch: {branch}")
-            for leaf in branch:
-                print(f"Leaf: {leaf}")
+##        for branch in the_tree:
+##            print(f"Branch: {branch}")
+##            for leaf in branch:
+##                print(f"Leaf: {leaf}")
 
-        print(f"\n\nTHE TREE: {the_tree}")
+##        print(f"\n\nTHE TREE: {the_tree}")
         
 ## WHAT I HAVE TRIED
 ## to write at the beginning of make_objs()
