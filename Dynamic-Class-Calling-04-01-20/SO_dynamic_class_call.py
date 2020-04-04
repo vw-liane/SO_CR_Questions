@@ -66,11 +66,7 @@ def make_objs(sub_ser):
 
 ## RECURSIVE THROUGH TREE
 def trav_tree(tree):
-    if type(tree)==list:
-        print("Is list")
     for indx, elem in enumerate(tree):
-        print(f"Index: {indx}\nElement: {elem}\n\n")
-        #trav_tree(elem)
         for jdx, sub in enumerate(elem):
             print(f"Index: {jdx}\nSub-Elem: {sub}\n\n")
 
@@ -81,6 +77,18 @@ if __name__ == "__main__":
         cls_list = [Vegetable, Fruit, Grape, Cucumber]
         the_tree = inspect.getclasstree(classes=cls_list)
         trav_tree(the_tree)
+
+        my_fab_cuc = Cucumber()
+        print(f"Is my_fab_cuc a Vegetable?: {type(my_fab_cuc)==Vegetable}")
+        print(f"Is my_fab_cuc a Cucumber?: {type(my_fab_cuc) == Cucumber}")
+        my_fab_cuc = Vegetable()
+        print(f"\nIs my_fab_cuc a Vegetable?: {type(my_fab_cuc) == Vegetable}")
+        print(f"Is my_fab_cuc a Cucumber?: {type(my_fab_cuc) == Cucumber}")
+
+        my_fab_cuc = Vegetable()
+        my_fab_cuc = Cucumber()
+        print(f"\n\nIs my_fab_cuc a Vegetable?: {type(my_fab_cuc) == Vegetable}")
+        print(f"Is my_fab_cuc a Cucumber?: {type(my_fab_cuc) == Cucumber}")
 
 ##        for branch in the_tree:
 ##            print(f"Branch: {branch}")
@@ -101,3 +109,13 @@ if __name__ == "__main__":
 # Is there a way to call the Class constructor
 # by checking if something matches the class name?
 # .... for example, if <cls_call> matches the name?
+
+
+##        if type(elem)==tuple:
+##            print(f"Index: {indx}\nElement: {elem}")
+##            if elem[1]:
+##                print(f"Type: {type(elem[0])} of: {elem[0]}")
+##        elif type(elem)==list:
+##            print(f"List: {elem}")
+##            trav_tree(elem)
+##            print("Return")
