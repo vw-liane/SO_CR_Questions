@@ -42,33 +42,33 @@ def extract_ser():
             df_csv = pd.read_csv(sub_class)  # dataframe assignment
             df_ser = df_csv.iloc[:,0]      # series assignment
 
-            sub_cls_ser[sub_class.stem[:-1]] = df_ser  # [stem] = series
+            sub_cls_ser[eval((sub_class.stem[:-1]).capitalize())] = df_ser  # [ClassName] = series
     return sub_cls_ser
 
 
 def make_objs(sub_ser):
-    for str_key, ser_val in sub_ser.items():
-        ## APPLY super_constr
-        # if str_key matches sub_class of super
-        make_veg = lambda veg: Vegetable()  # INSERT varying named lambda function & CONSTRUCTOR CALL
-        
-        print(f"Check DF str_key: {str_key}")  # use <str_key> to check which is super class
-        obj_df = ser_val.apply(make_veg)     # inside .apply() would change based on super_class
+    for obj_key, ser_val in sub_ser.items():
+        make_cls = lambda cls: obj_key()
+
+        print(f"Check DF obj_key: {obj_key} \n Type: {obj_key}")  # use <str_key> to check which is super class
+        obj_df = ser_val.apply(make_cls)     # inside .apply() would change based on super_class
         print(f"After SUPER .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
 
-        make_cuc = lambda veg: Cucumber()  # INSERT varying named lambda function & CONSTRUCTOR CALL
-                                                #  later applied to the series
-        ## APPLY sub_constr
-        print(f"Check DF str_key: {str_key}")
-        obj_df = ser_val.apply(make_cuc)    # inside .apply() would change based on sub_class
-
-        print(f"After SUB .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
 
 ## RECURSIVE THROUGH TREE
 def trav_tree(tree):
     for indx, elem in enumerate(tree):
         for jdx, sub in enumerate(elem):
             print(f"Index: {jdx}\nSub-Elem: {sub}\n\n")
+
+def dynam_crte_classes(cl_lst):
+    for cls in cl_lst:
+        obj = cls()
+        print(obj)
+
+
+
+
 
 if __name__ == "__main__":
         sub_cls_series = extract_ser()
@@ -79,16 +79,13 @@ if __name__ == "__main__":
         trav_tree(the_tree)
 
         my_fab_cuc = Cucumber()
-        print(f"Is my_fab_cuc a Vegetable?: {type(my_fab_cuc)==Vegetable}")
-        print(f"Is my_fab_cuc a Cucumber?: {type(my_fab_cuc) == Cucumber}")
-        my_fab_cuc = Vegetable()
-        print(f"\nIs my_fab_cuc a Vegetable?: {type(my_fab_cuc) == Vegetable}")
-        print(f"Is my_fab_cuc a Cucumber?: {type(my_fab_cuc) == Cucumber}")
+        print(f"Is my_fab_cuc an instance of Vegetable?: {isinstance(my_fab_cuc, Vegetable)}")
+        print(f"Is my_fab_cuc an instance of Cucumber?: {isinstance(my_fab_cuc, Cucumber)}")
 
-        my_fab_cuc = Vegetable()
-        my_fab_cuc = Cucumber()
-        print(f"\n\nIs my_fab_cuc a Vegetable?: {type(my_fab_cuc) == Vegetable}")
-        print(f"Is my_fab_cuc a Cucumber?: {type(my_fab_cuc) == Cucumber}")
+        dynam_crte_classes(cls_list)
+
+
+
 
 ##        for branch in the_tree:
 ##            print(f"Branch: {branch}")
