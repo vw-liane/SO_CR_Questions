@@ -47,12 +47,12 @@ def extract_ser():
 
 
 def make_objs(sub_ser):
-    for obj_key, ser_val in sub_ser.items():
-        make_cls = lambda cls: obj_key()
+    for cls_key, ser_val in sub_ser.items():
+        make_cls = lambda cls: cls_key()
 
-        print(f"Check DF obj_key: {obj_key} \n Type: {obj_key}")  # use <str_key> to check which is super class
-        obj_df = ser_val.apply(make_cls)     # inside .apply() would change based on super_class
-        print(f"After SUPER .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
+        print(f"Check DF obj_key: {cls_key} \n Type: {cls_key}")
+        obj_df = ser_val.apply(make_cls)        # is safer because only using in .apply()?
+        print(f"After .apply()::\nCheck OBJ_DF Contents\n{obj_df}\n")
 
 
 ## RECURSIVE THROUGH TREE
@@ -60,14 +60,6 @@ def trav_tree(tree):
     for indx, elem in enumerate(tree):
         for jdx, sub in enumerate(elem):
             print(f"Index: {jdx}\nSub-Elem: {sub}\n\n")
-
-def dynam_crte_classes(cl_lst):
-    for cls in cl_lst:
-        obj = cls()
-        print(obj)
-
-
-
 
 
 if __name__ == "__main__":
@@ -82,37 +74,4 @@ if __name__ == "__main__":
         print(f"Is my_fab_cuc an instance of Vegetable?: {isinstance(my_fab_cuc, Vegetable)}")
         print(f"Is my_fab_cuc an instance of Cucumber?: {isinstance(my_fab_cuc, Cucumber)}")
 
-        dynam_crte_classes(cls_list)
 
-
-
-
-##        for branch in the_tree:
-##            print(f"Branch: {branch}")
-##            for leaf in branch:
-##                print(f"Leaf: {leaf}")
-
-##        print(f"\n\nTHE TREE: {the_tree}")
-        
-## WHAT I HAVE TRIED
-## to write at the beginning of make_objs()
-###################
-
-# make lambda function
-#lam_func = "make_" + (str(sub_class.stem))[:3]   # first 3 char
-#cls_call = (str(sub_class.stem)).capitalize()
-#lam_func = lambda fst_3_char: cls_call()       # error string not callable
-
-# Is there a way to call the Class constructor
-# by checking if something matches the class name?
-# .... for example, if <cls_call> matches the name?
-
-
-##        if type(elem)==tuple:
-##            print(f"Index: {indx}\nElement: {elem}")
-##            if elem[1]:
-##                print(f"Type: {type(elem[0])} of: {elem[0]}")
-##        elif type(elem)==list:
-##            print(f"List: {elem}")
-##            trav_tree(elem)
-##            print("Return")
